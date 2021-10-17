@@ -1,7 +1,14 @@
 html,
 body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(37, 50, 72);
   padding: 0;
   margin: 0;
+  text-align: center;
+  color: white;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -15,6 +22,8 @@ a {
   box-sizing: border-box;
 }
 .main {
+  width: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

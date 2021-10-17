@@ -1,6 +1,9 @@
 import Head from "next/head";
 import React from "react";
-
+import dynamic from "next/dynamic";
+const Chart = dynamic(() => import("../Component/Chart"), {
+  ssr: false,
+});
 export default function Home() {
   return (
     <div>
@@ -10,8 +13,13 @@ export default function Home() {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <hr />
-      <div>candleStaticChart</div>
+
+      <div style={{ marginTop: "20px", fontSize: "25px" }}>
+        Candle Static Chart
+      </div>
+      <div>
+        <Chart />
+      </div>
     </div>
   );
 }
