@@ -54,19 +54,21 @@ const Chart = () => {
 
     candleSeries.setData(priceData);
 
-    // const volumeSeries = chart.current.addHistogramSeries({
-    //   color: "#182233",
-    //   //lineWidth: 2,
-    //   priceFormat: {
-    //     type: "volume",
-    //   },
-    //   scaleMargins: {
-    //     top: 0.8,
-    //     bottom: 0,
-    //   },
-    // });
+    const volumeSeries = chart.current.addHistogramSeries({
+      color: "rgba(31, 31, 31, 0.5)",
+      base: 2,
+      baseLineWidth: 2,
+      overlay: true,
+      priceFormat: {
+        type: "volume",
+      },
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0,
+      },
+    });
 
-    // volumeSeries.setData(volumeData);
+    volumeSeries.setData(volumeData);
   }, []);
   useEffect(() => {
     chart.current.resize(size.x - 18, size.y - 58);
