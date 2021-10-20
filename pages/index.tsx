@@ -11,17 +11,31 @@ export default function Home() {
   const [ERROR, setError] = useState<any>(false);
 
   const fetcher = async () => {
-    const limit = 300;
-    await fetch(
-      `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=${limit}`
-    )
-      .then(async (res) => {
-        const data = await res.json();
-        setData(data);
-      })
-      .catch((error) => {
-        setError(true);
-      });
+    if (data) {
+      const limit = 1;
+      await fetch(
+        `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=${limit}`
+      )
+        .then(async (res) => {
+          const data = await res.json();
+          setData(data);
+        })
+        .catch((error) => {
+          setError(true);
+        });
+    } else {
+      const limit = 500;
+      await fetch(
+        `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=${limit}`
+      )
+        .then(async (res) => {
+          const data = await res.json();
+          setData(data);
+        })
+        .catch((error) => {
+          setError(true);
+        });
+    }
   };
 
   const time = 1000;
@@ -64,7 +78,7 @@ export default function Home() {
           </Head>
           <div>
             Can Not Connect To The Api Binance If Your Country Ban By Binance
-            Use Vpn
+            Use Vpn!
           </div>
         </div>
       ) : (
@@ -79,9 +93,6 @@ export default function Home() {
             />
           </Head>
 
-          <div style={{ marginTop: "20px", fontSize: "25px" }}>
-            Candle Static Chart (BTC-USDT) DAILY
-          </div>
           <div>
             <Chart data={data} />
           </div>
