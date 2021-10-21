@@ -1,5 +1,15 @@
 .chart {
-  width: 90vh;
-  height: 90vh;
+  width: 100vh;
+  height: 100vh;
   background-color: rgba(31, 31, 31, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .title {
+    position: absolute;
+    top: 20px;
+    font-size: 25px;
+    z-index: 5;
+  }
 }
