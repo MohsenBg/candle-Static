@@ -10,7 +10,7 @@ import TerraLogo from "./public/assets/Coins/Terra.png";
 import LitecoinLogo from "./public/assets/Coins/Litecoin.png";
 import AvalancheLogo from "./public/assets/Coins/Avalanche.png";
 import BitcoinCashLogo from "./public/assets/Coins/Bitcoin_Cash.png";
-import AlgorandLogo from "./public/assets/Coins/Algorand.png";
+import AlgorandLogo from "./public/assets/Coins/algorand.png";
 import PolygonLogo from "./public/assets/Coins/Polygon.png";
 import StellarLogo from "./public/assets/Coins/Stellar.png";
 import VeChainLogo from "./public/assets/Coins/VeChain.png";
