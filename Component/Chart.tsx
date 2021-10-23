@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
 import styles from "./Chart.module.scss";
+import { BiArrowBack } from "react-icons/bi";
+import Link from "next/link";
 let candleSeries: any;
 let volumeSeries: any;
 let barsInfo: any;
 let box = document.getElementById("chart");
-const Chart = ({ data }: any) => {
+const Chart = ({ data, coinData }: any) => {
   //!------------------------
   const [chartExist, setChartExist] = useState(false);
   const [size, setSize] = useState({
@@ -31,7 +33,7 @@ const Chart = ({ data }: any) => {
       let currentData: any;
       let limit = 200;
       await fetch(
-        `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&endTime=${lastTimeStamp}&limit=${limit}`
+        `https://api.binance.com/api/v3/klines?symbol=${coinData[0].Symbol}USDT&interval=1d&endTime=${lastTimeStamp}&limit=${limit}`
       )
         .then(async (res) => {
           currentData = await res.json();
@@ -200,7 +202,14 @@ const Chart = ({ data }: any) => {
   return (
     <>
       <div className={styles.chart}>
-        <div className={styles.title}>Candle Static Chart (BTC-USDT) DAILY</div>
+        <div className={styles.icon}>
+          <Link href="/">
+            <BiArrowBack />
+          </Link>
+        </div>
+        <div className={styles.title}>
+          Candle Static Chart ({coinData[0].Symbol}-USDT) DAILY
+        </div>
         <div id="chart" ref={chartContainerRef} className="chart-container" />
       </div>
     </>
