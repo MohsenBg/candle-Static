@@ -85,5 +85,26 @@
         }
       }
     }
+    .dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1em;
+      font-size: 14px;
+      color: rgb(83, 83, 83);
+      div {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .dot {
+        display: flex;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0.5em;
+        cursor: pointer;
+      }
+    }
   }
 }

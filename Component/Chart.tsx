@@ -33,7 +33,7 @@ const Chart = ({ data, coinData }: any) => {
       let currentData: any;
       let limit = 200;
       await fetch(
-        `https://api.binance.com/api/v3/klines?symbol=${coinData[0].Symbol}USDT&interval=1d&endTime=${lastTimeStamp}&limit=${limit}`
+        `https://api.binance.com/api/v3/klines?symbol=${coinData[0].coin_symbol}USDT&interval=1d&endTime=${lastTimeStamp}&limit=${limit}`
       )
         .then(async (res) => {
           currentData = await res.json();
@@ -208,9 +208,14 @@ const Chart = ({ data, coinData }: any) => {
           </Link>
         </div>
         <div className={styles.title}>
-          Candle Static Chart ({coinData[0].Symbol}-USDT) DAILY
+          Candle Static Chart ({coinData[0].coin_symbol}-USDT) DAILY
         </div>
-        <div id="chart" ref={chartContainerRef} className="chart-container" />
+        <div
+          id="chart"
+          style={{ position: "absolute", top: "0", left: "0" }}
+          ref={chartContainerRef}
+          className="chart-container"
+        />
       </div>
     </>
   );

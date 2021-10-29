@@ -1,180 +1,44 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { SupportedCoins } from "../supportedCoins";
 import styles from "../styles/Home.module.scss";
 import Image from "next/image";
 import Loading from "../public/assets/svg/Loading.svg";
 import Link from "next/link";
+import { GoPrimitiveDot } from "react-icons/go";
+import { useDispatch, useSelector } from "react-redux";
+import { ActionTypeCoinsData } from "../redux/coinsData/ActionType";
+
 export default function Home() {
-  const [ERROR, setError] = useState<any>(false);
-  const [Price, setPrice] = useState<any>([
-    {
-      LastPrice: "",
-      Symbol: "BTC",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "ETH",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "BNB",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    { LastPrice: "", Symbol: "ADA", PriceChange: "", PriceChangePercent: "" },
-    {
-      LastPrice: "",
-      Symbol: "SOL",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "XRP",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "DOT",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "DOGE",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "LUNA",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "LTC",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "BCH",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "VET",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "ALGO",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "ICP",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "MATIC",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "ATOM",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "XLM",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "AVAX",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "TRX",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "ETC",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-    {
-      LastPrice: "",
-      Symbol: "FIL",
-      PriceChange: "",
-      PriceChangePercent: "",
-    },
-  ]);
+  const [dots, setDots] = useState<any>([]);
+  const [countItem, setCountItem] = useState(10);
+  const [Page, setPage] = useState(1);
+  const SupportedCoins: Array<coinDataInterface> = useSelector(
+    (state: any) => state.coinsData.coinsData
+  );
+  const LoadingStatus = useSelector((state: any) => state.loading.loading);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      getPrice();
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getPrice = async () => {
-    for (let i = 0; i < Price.length; i++) {
-      await fetch(
-        `https://api.binance.com/api/v3/ticker/24hr?symbol=${Price[i].Symbol}USDT`
-      )
-        .then(async (res) => {
-          const data: any = await res.json();
-          let newPrice = Price;
-          newPrice[i].LastPrice = parseFloat(data.lastPrice);
-          newPrice[i].PriceChange = parseFloat(data.priceChange);
-          newPrice[i].PriceChangePercent = parseFloat(data.priceChangePercent);
-          setPrice([...newPrice]);
-        })
-        .catch((error) => {
-          setError(true);
-        });
+    let dots = [];
+    for (let i = 1; i < SupportedCoins.length / countItem; i++) {
+      let obj = {
+        id: i,
+      };
+      dots.push(obj);
     }
-  };
+    setDots(dots);
+  }, [SupportedCoins, countItem]);
 
-  if (ERROR) {
-    return (
-      <div>
-        <Head>
-          <title>Error</title>
-          <meta charSet="UTF-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-        </Head>
-        <div style={{ margin: "20px" }}>
-          Can Not Connect To The Api Binance If Your Country Ban By Binance Use
-          Vpn!
-        </div>
-      </div>
-    );
+  interface coinDataInterface {
+    coin_id: string;
+    coin_name: string;
+    coin_symbol: string;
+    coin_rank: string;
+    coin_price_usd: string;
+    coin_price_change: string;
+    coin_percent_change_24h: string;
+    url: string;
   }
 
   return (
@@ -190,86 +54,106 @@ export default function Home() {
           />
         </Head>
       </div>
-      <div className={styles.container}>
-        <div className={styles.title}>COIN PRICE (USDT)</div>
-
-        <div className={styles.mainContent}>
-          <div className={styles.CoinsContainer}>
-            <div className={styles.option}>
-              <div className={styles.firstRow}>
-                <div className={styles.coinContainer}>
-                  <div className={styles.firstColumn}>#</div>
-                  <div className={styles.secondColumn}>Name</div>
-                  <div className={styles.thirdColumn}>Price</div>
-                  <div className={styles.fourthColumn}>PriceChange</div>
+      <div
+        className={styles.container}
+        style={LoadingStatus ? { height: "100vh", overflow: "hidden" } : {}}
+      >
+        {SupportedCoins.length > 0 ? (
+          <>
+            <div className={styles.title}>COIN PRICE (USDT)</div>
+            <div className={styles.mainContent}>
+              <div className={styles.CoinsContainer}>
+                <div className={styles.option}>
+                  <div className={styles.firstRow}>
+                    <div className={styles.coinContainer}>
+                      <div className={styles.secondColumn}>Name</div>
+                      <div className={styles.thirdColumn}>Price</div>
+                      <div className={styles.fourthColumn}>PriceChange</div>
+                    </div>
+                  </div>
+                </div>
+                {SupportedCoins.slice(
+                  (Page - 1) * countItem,
+                  Page * countItem
+                ).map((coin) => {
+                  return (
+                    <Link href={`/Chart/${coin.coin_name}`} key={coin.coin_id}>
+                      <div className={styles.coinContainer}>
+                        <div className={styles.secondColumn}>
+                          <div className={styles.CoinIcon}>
+                            <img
+                              width={45}
+                              height={45}
+                              src={coin.url}
+                              alt={coin.coin_id}
+                            />
+                          </div>
+                          <div className={styles.coinData}>
+                            <div>{coin.coin_name}</div>
+                            <div>{coin.coin_symbol}</div>
+                          </div>
+                        </div>
+                        <div className={styles.thirdColumn}>
+                          <div>
+                            {coin.coin_price_usd === "" ? (
+                              <div>
+                                <Image src={Loading} alt="loading" />
+                              </div>
+                            ) : (
+                              <div> {coin.coin_price_usd} $</div>
+                            )}
+                          </div>
+                        </div>
+                        <div className={styles.fourthColumn}>
+                          <div>
+                            {coin.coin_price_change === "" ||
+                            coin.coin_percent_change_24h === "" ? (
+                              <div>
+                                <Image src={Loading} alt="loading" />
+                              </div>
+                            ) : (
+                              <div
+                                style={
+                                  parseFloat(coin.coin_price_change) < 0
+                                    ? { color: "red" }
+                                    : parseFloat(coin.coin_price_change) > 0
+                                    ? { color: "green" }
+                                    : { color: "gray" }
+                                }
+                              >
+                                {coin.coin_price_change}$ (
+                                {parseFloat(
+                                  coin.coin_percent_change_24h
+                                ).toFixed(2)}
+                                %)
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+              <div className={styles.dots}>
+                <div>
+                  {dots.map((dot: any) => {
+                    return (
+                      <span
+                        className={styles.dot}
+                        style={dot.id === Page ? { color: "red" } : {}}
+                        key={dot.id}
+                        onClick={() => setPage(dot.id)}
+                      >
+                        {dot.id}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </div>
-            {SupportedCoins.map((coin) => {
-              return (
-                <Link href={`/Chart/${coin.Name}`} key={coin.id}>
-                  <div className={styles.coinContainer}>
-                    <div className={styles.firstColumn}>{coin.id}</div>
-                    <div className={styles.secondColumn}>
-                      <div className={styles.CoinIcon}>
-                        <Image src={coin.Image} />
-                      </div>
-                      <div className={styles.coinData}>
-                        <div>{coin.Name}</div>
-                        <div>{coin.Symbol}</div>
-                      </div>
-                    </div>
-                    <div className={styles.thirdColumn}>
-                      {Price.map((item: any) => {
-                        if (item.Symbol === `${coin.Symbol}`) {
-                          return (
-                            <div key={item.Symbol}>
-                              {item.LastPrice === "" ? (
-                                <div>
-                                  <Image src={Loading} alt="loading" />
-                                </div>
-                              ) : (
-                                <div> {item.LastPrice} $</div>
-                              )}
-                            </div>
-                          );
-                        }
-                      })}
-                    </div>
-                    <div className={styles.fourthColumn}>
-                      {Price.map((item: any) => {
-                        if (item.Symbol === `${coin.Symbol}`)
-                          return (
-                            <div key={item.Symbol}>
-                              {item.PriceChangePercent === "" ||
-                              item.PriceChangePercent === "" ? (
-                                <div>
-                                  <Image src={Loading} alt="loading" />
-                                </div>
-                              ) : (
-                                <div
-                                  style={
-                                    item.PriceChangePercent < 0
-                                      ? { color: "red" }
-                                      : item.PriceChangePercent > 0
-                                      ? { color: "green" }
-                                      : { color: "gray" }
-                                  }
-                                >
-                                  {item.PriceChange}$ (
-                                  {item.PriceChangePercent.toFixed(2)}%)
-                                </div>
-                              )}
-                            </div>
-                          );
-                      })}
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+          </>
+        ) : null}
       </div>
     </>
   );
