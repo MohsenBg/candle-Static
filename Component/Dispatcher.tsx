@@ -40,9 +40,7 @@ const Dispatcher = () => {
   const [Error, setError] = useState(false);
   useEffect(() => {
     dispatch({ type: ActionTypeLoading.ON_LOADING });
-    setTimeout(() => {
-      dispatch({ type: ActionTypeLoading.END_LOADING });
-    }, 5000);
+   
   }, []);
 
   const coinsData: Array<coinDataInterface> = useSelector(
@@ -75,6 +73,9 @@ const Dispatcher = () => {
         afterFilter = await newData;
       })
       .catch((error) => {
+       setTimeout(() => {
+      dispatch({ type: ActionTypeLoading.END_LOADING });
+    }, 1000);
         setError(true);
       });
     await fetch("https://cryptocurrencyliveprices.com/api/")
@@ -111,8 +112,14 @@ const Dispatcher = () => {
           type: ActionTypeCoinsData.STORE_COINS_DATA,
           payload: result,
         });
+             setTimeout(() => {
+      dispatch({ type: ActionTypeLoading.END_LOADING });
+    }, 2000);
       })
       .catch((error) => {
+       setTimeout(() => {
+      dispatch({ type: ActionTypeLoading.END_LOADING });
+    }, 1000);
         setError(true);
       });
   };
